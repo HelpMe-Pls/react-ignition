@@ -1,9 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
-  let firstName = `Random `
-  let lastName = `Guy`
+  let firstName = `Random `;
+  let lastName = `Guy`;
   let fullName = firstName + lastName;
   return (
     <div className="App">
