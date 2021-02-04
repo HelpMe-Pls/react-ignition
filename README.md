@@ -68,3 +68,20 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+What I've Learnt:
+## Introduction to React:
+• React
+– create-react-app bootstraps a React application
+– JSX mixes up HTML and JavaScript to define the output of React components in their render methods
+– components, instances and elements are different things in React
+– ReactDOM.render() is an entry point for a React application to hook React into the DOM
+– built-in JavaScript functionalities can be used in JSX
+* map can be used to render a list of items as HTML elements
+
+• ES6
+– variable declarations with const and let can be used for specific use cases
+* use const over let in React applications
+– arrow functions can be used to keep your functions concise
+– classes are used to define components in React by extending them
