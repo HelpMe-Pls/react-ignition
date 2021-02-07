@@ -24,9 +24,14 @@ const list = [
 class App extends Component {
   //function App() {
   constructor(props) {
-    super(props); //sets this.props in your constructor in case you want to access them in the constructor. Otherwise, when accessing this.props in your constructor, they would be undefined.
+    super(
+      props
+    ); /* sets this.props in your constructor in case you want to access them in the constructor. 
+    Otherwise, when accessing this.props in your constructor, they would be undefined. */
     this.state = {
       list: list,
+      /* that's ES5, in ES6 it could be just (list,) ``When variable name and the state property name share the same name,
+      we can use shorthand`` */
     };
   }
 
@@ -49,3 +54,19 @@ class App extends Component {
 }
 
 export default App;
+
+/* ## Object initializer
+
+An object initializer is an expression that describes the initialization of an Object. Objects consist of properties,
+which are used to describe an object. The values of object properties can either contain primitive data types or other objects.
+
+# Object literal notation vs JSON
+The object literal notation is not the same as the JavaScript Object Notation (JSON). Although they look similar,
+there are differences between them:
+
+- JSON permits only property definition using "property": value syntax.  The property name must be double-quoted, and the definition
+cannot be a shorthand.
+- In JSON the values can only be strings, numbers, arrays, true, false, null, or another (JSON) object.
+- A function value can not be assigned to a value in JSON, but you can have a function as a property's value in object literal notation.
+- Objects like Date will be a string after JSON.parse().
+- JSON.parse() will reject computed property names and an error will be thrown. */
