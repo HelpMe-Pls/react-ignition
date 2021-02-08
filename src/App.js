@@ -36,8 +36,13 @@ class App extends Component {
     };
 
     this.onDismiss = this.onDismiss.bind(this);
+    /* if you want to access
+      this.state in your class method, it cannot be retrieved because this is undefined. So in order to
+      make this accessible in your class methods, you have to bind the class methods to this. */
   }
 
+  /* class methods can be autobound automatically without
+  binding them explicitly by using JavaScript ES6 arrow functions. */
   onDismiss(id) {
     const isNotId = (item) => item.objectID !== id;
     const updatedList = this.state.list.filter(isNotId);
