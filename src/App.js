@@ -21,6 +21,15 @@ const list = [
   },
 ];
 
+// The function takes the searchTerm and returns another function, because after all the filter function
+// takes a function as its input. The returned function has access to the item object because it is the
+// function that is passed to the filter function. In addition, the returned function will be used to filter
+// the list based on the condition defined in the function.
+const isSearched = (searchTerm) => (
+  item //function isSearched(searchTerm) return function(item) return....
+) => item.title.toLowerCase().includes(searchTerm.toLowerCase());
+//match the incoming searchTerm pattern with the title property of the item from your list
+
 class App extends Component {
   //function App() {
   constructor(props) {
@@ -33,8 +42,10 @@ class App extends Component {
       list: list,
       /* that's ES5, in ES6 it could be just (list,) ``When variable name and the state property name share the same name,
       we can use shorthand`` */
+      searchTerm: "",
     };
 
+    this.onSearchChange = this.onSearchChange.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
     /* if you want to access
       this.state in your class method, it cannot be retrieved because this is undefined. So in order to
@@ -51,29 +62,42 @@ class App extends Component {
   /*   If the evaluation for an item is true, the item stays in the list. Otherwise it will be filtered from the list.
   Additionally, it is good to know that the setState function returns a new list and doesn’t mutate the old list. */
 
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value });
+  }
+
   render() {
     return (
       <div className="App">
-        {this.state.list.map((item) => (
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button
-                onClick={
-                  () => this.onDismiss(item.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
-                } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
-                type="button"
-              >
-                Dismiss
-              </button>
-            </span>
-          </div>
-        ))}
+        <form>
+          <input type="text" onChange={this.onSearchChange} />
+          {/* you will type into the input field and filter the list temporarily by the
+          search term that is used in the input field (stored in your local state) */}
+        </form>
+        {this.state.list
+          .filter(isSearched(this.state.searchTerm))
+          // You pass in the searchTerm property from your local state, it returns the filter input function, and filters your
+          // list based on the filter condition. Afterward it maps over the filtered list to display an element for each list item.
+          .map((item) => (
+            <div key={item.objectID}>
+              <span>
+                <a href={item.url}>{item.title}</a>
+              </span>
+              <span>{item.author}</span>
+              <span>{item.num_comments}</span>
+              <span>{item.points}</span>
+              <span>
+                <button
+                  onClick={
+                    () => this.onDismiss(item.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
+                  } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
+                  type="button"
+                >
+                  Dismiss
+                </button>
+              </span>
+            </div>
+          ))}
       </div>
     );
   }
