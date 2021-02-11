@@ -41,16 +41,15 @@ class App extends Component {
       make this accessible in your class methods, you have to bind the class methods to this. */
   }
 
-  /* class methods can be autobound automatically without
+  /* class METHODS can be autobound automatically without
   binding them explicitly by using JavaScript ES6 arrow functions. */
   onDismiss(id) {
     const isNotId = (item) => item.objectID !== id;
     const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList });
+    this.setState({ list: updatedList }); //store an updated list to your LOCAL state (internal component state).
   }
-  /*   If the
-  evaluation for an item is true, the item stays in the list. Otherwise it will be filtered from the list.
-  Additionally, it is good to know that the function returns a new list and doesn’t mutate the old list. */
+  /*   If the evaluation for an item is true, the item stays in the list. Otherwise it will be filtered from the list.
+  Additionally, it is good to know that the setState function returns a new list and doesn’t mutate the old list. */
 
   render() {
     return (
@@ -65,7 +64,9 @@ class App extends Component {
             <span>{item.points}</span>
             <span>
               <button
-                onClick={() => this.onDismiss(item.objectID)}
+                onClick={
+                  () => this.onDismiss(item.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
+                } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
                 type="button"
               >
                 Dismiss
