@@ -73,9 +73,10 @@ class App extends Component {
     return (
       <div className="App">
         <form>
-          <input type="text" onChange={this.onSearchChange} />
           {/* you will type into the input field and filter the list temporarily by the
           search term that is used in the input field (stored in your local state) */}
+          <input type="text" onChange={this.onSearchChange} />
+          {/* TODO: figure out why () => this.onSearchChange won't work */}
         </form>
         {list
           .filter(isSearched(searchTerm))
@@ -94,6 +95,7 @@ class App extends Component {
                   onClick={
                     () => this.onDismiss(book.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
                   } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
+                  value={searchTerm} // added for the sake of controlled component
                   type="button"
                 >
                   Dismiss
