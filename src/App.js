@@ -69,6 +69,7 @@ class App extends Component {
   }
 
   render() {
+    const { searchTerm, list } = this.state; // using ES6 destructuring so we can quickly access state's props
     return (
       <div className="App">
         <form>
@@ -76,8 +77,8 @@ class App extends Component {
           {/* you will type into the input field and filter the list temporarily by the
           search term that is used in the input field (stored in your local state) */}
         </form>
-        {this.state.list
-          .filter(isSearched(this.state.searchTerm))
+        {list
+          .filter(isSearched(searchTerm))
           // You pass in the searchTerm property from your local state, it returns the filter input function, and filters your
           // list based on the filter condition. Afterward it MAPS over the filtered list TO DISPLAY an element for each list item.
           .map((book) => (
