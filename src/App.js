@@ -21,14 +21,15 @@ const list = [
   },
 ];
 
-// The function takes the searchTerm and returns another function, because after all the filter function
-// takes a function as its input. The returned function has access to the item object because it is the
-// function that is passed to the filter function. In addition, the returned function will be used to filter
-// the list based on the condition defined in the function.
+// The function takes the searchTerm as a param and returns another function,
+// because after all the filter function takes a function as its input.
+// The returned function has access to the item object because it is the function that is passed to the filter function.
+// In addition, the returned function will be used to filter the list based on the condition defined in the function.
 const isSearched = (searchTerm) => (
   item //function isSearched(searchTerm) return function(item) return....
 ) => item.title.toLowerCase().includes(searchTerm.toLowerCase());
-//match the incoming searchTerm pattern with the title property of the item from your list
+// match the incoming searchTerm pattern with the title property of the item from your list.
+// includes() return true when the pattern matches and the item stays in the list, the original list in the local state isn’t modified at all.
 
 class App extends Component {
   //function App() {
@@ -43,13 +44,13 @@ class App extends Component {
       /* that's ES5, in ES6 it could be just (list,) ``When variable name and the state property name share the same name,
       we can use shorthand`` */
       searchTerm: "",
+      //  The input field should be empty in the beginning and thus the value should be an empty string
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
-    /* if you want to access
-      this.state in your class method, it cannot be retrieved because this is undefined. So in order to
-      make this accessible in your class methods, you have to bind the class methods to this. */
+    /* if you want to access this.state in your class method, it cannot be retrieved because this is undefined. 
+      So in order to make this accessible in your class methods, you have to bind the class methods to this. */
   }
 
   /* class METHODS can be autobound automatically without
@@ -63,7 +64,8 @@ class App extends Component {
   Additionally, it is good to know that the setState function returns a new list and doesn’t mutate the old list. */
 
   onSearchChange(event) {
-    this.setState({ searchTerm: event.target.value });
+    //The event has the value of the input field in its target object
+    this.setState({ searchTerm: event.target.value }); //update the local state with the search term by using this.setState()
   }
 
   render() {
@@ -77,19 +79,19 @@ class App extends Component {
         {this.state.list
           .filter(isSearched(this.state.searchTerm))
           // You pass in the searchTerm property from your local state, it returns the filter input function, and filters your
-          // list based on the filter condition. Afterward it maps over the filtered list to display an element for each list item.
-          .map((item) => (
-            <div key={item.objectID}>
+          // list based on the filter condition. Afterward it MAPS over the filtered list TO DISPLAY an element for each list item.
+          .map((book) => (
+            <div key={book.objectID}>
               <span>
-                <a href={item.url}>{item.title}</a>
+                <a href={book.url}>{book.title}</a>
               </span>
-              <span>{item.author}</span>
-              <span>{item.num_comments}</span>
-              <span>{item.points}</span>
+              <span>{book.author}</span>
+              <span>{book.num_comments}</span>
+              <span>{book.points}</span>
               <span>
                 <button
                   onClick={
-                    () => this.onDismiss(item.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
+                    () => this.onDismiss(book.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
                   } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
                   type="button"
                 >
