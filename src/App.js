@@ -25,6 +25,7 @@ const list = [
 // because after all the filter function takes a function as its input.
 // The returned function has access to the item object because it is the function that is passed to the filter function.
 // In addition, the returned function will be used to filter the list based on the condition defined in the function.
+
 const isSearched = (searchTerm) => (
   item //function isSearched(searchTerm) return function(item) return....
 ) => item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -72,6 +73,9 @@ class App extends Component {
     const { searchTerm, list } = this.state; // using ES6 destructuring so we can quickly access state's props
     return (
       <div className="App">
+        {/* ## Split Component
+        <Search value={searchTerm} onChange={this.onSearchChange} />
+        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} /> */}
         <form>
           {/* you will type into the input field and filter the list temporarily by the
           search term that is used in the input field (stored in your local state) */}
@@ -84,6 +88,7 @@ class App extends Component {
           // list based on the filter condition. Afterward it MAPS over the filtered list TO DISPLAY an element for each list item.
           .map((book) => (
             <div key={book.objectID}>
+              {/* //A good rule of thumb is that elements inside the map() call need keys */}
               <span>
                 <a href={book.url}>{book.title}</a>
               </span>
@@ -95,7 +100,10 @@ class App extends Component {
                   onClick={
                     () => this.onDismiss(book.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
                   } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
-                  value={searchTerm} // added for the sake of controlled component
+                  value={searchTerm} // added for the sake of controlled component.
+                  // In HTML, form elements such as <input>, <textarea>, and <select> typically maintain their own state and update it based on user input.
+                  // In React, mutable state is typically kept in the state property of components, and only updated with setState().
+                  //While this means you have to type a bit more code, you can now pass the value to other UI elements too, or reset it from other event handlers.
                   type="button"
                 >
                   Dismiss
@@ -107,6 +115,44 @@ class App extends Component {
     );
   }
 }
+
+/*  ## Split Component Definitions 
+
+class Search extends Component {
+  render() {
+    const { value, onChange } = this.props;
+    return (
+      <form>
+        <input type="text" value={value} onChange={onChange} />
+      </form>
+    );
+  }
+}
+
+class Table extends Component {
+  render() {
+    const { list, pattern, onDismiss } = this.props;
+    return (
+      <div>
+        {list.filter(isSearched(pattern)).map((item) => (
+          <div key={item.objectID}>
+            <span>
+              <a href={item.url}>{item.title}</a>
+            </span>
+            <span>{item.author}</span>
+            <span>{item.num_comments}</span>
+            <span>{item.points}</span>
+            <span>
+              <button onClick={() => onDismiss(item.objectID)} type="button">
+                Dismiss
+              </button>
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+} */
 
 export default App;
 
