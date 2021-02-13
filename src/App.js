@@ -73,51 +73,15 @@ class App extends Component {
     const { searchTerm, list } = this.state; // using ES6 destructuring so we can quickly access state's props
     return (
       <div className="App">
-        {/* ## Split Component
+        {/*  //## Split Component */}
         <Search value={searchTerm} onChange={this.onSearchChange} />
-        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} /> */}
-        <form>
-          {/* you will type into the input field and filter the list temporarily by the
-          search term that is used in the input field (stored in your local state) */}
-          <input type="text" onChange={this.onSearchChange} />
-          {/* TODO: figure out why () => this.onSearchChange won't work */}
-        </form>
-        {list
-          .filter(isSearched(searchTerm))
-          // You pass in the searchTerm property from your local state, it returns the filter input function, and filters your
-          // list based on the filter condition. Afterward it MAPS over the filtered list TO DISPLAY an element for each list item.
-          .map((book) => (
-            <div key={book.objectID}>
-              {/* //A good rule of thumb is that elements inside the map() call need keys */}
-              <span>
-                <a href={book.url}>{book.title}</a>
-              </span>
-              <span>{book.author}</span>
-              <span>{book.num_comments}</span>
-              <span>{book.points}</span>
-              <span>
-                <button
-                  onClick={
-                    () => this.onDismiss(book.objectID) // it has to be a function (arrow func) that is passed to the event handler, and the return of that arrow func is sth you intended.
-                  } //Without it, the class method would be executed immediately when you run the app. The concept is called higher-order functions in JavaScript
-                  value={searchTerm} // added for the sake of controlled component.
-                  // In HTML, form elements such as <input>, <textarea>, and <select> typically maintain their own state and update it based on user input.
-                  // In React, mutable state is typically kept in the state property of components, and only updated with setState().
-                  //While this means you have to type a bit more code, you can now pass the value to other UI elements too, or reset it from other event handlers.
-                  type="button"
-                >
-                  Dismiss
-                </button>
-              </span>
-            </div>
-          ))}
+        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
       </div>
     );
   }
 }
 
-/*  ## Split Component Definitions 
-
+// ## Split Component Definitions
 class Search extends Component {
   render() {
     const { value, onChange } = this.props;
@@ -134,16 +98,16 @@ class Table extends Component {
     const { list, pattern, onDismiss } = this.props;
     return (
       <div>
-        {list.filter(isSearched(pattern)).map((item) => (
-          <div key={item.objectID}>
+        {list.filter(isSearched(pattern)).map((book) => (
+          <div key={book.objectID}>
             <span>
-              <a href={item.url}>{item.title}</a>
+              <a href={book.url}>{book.title}</a>
             </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
+            <span>{book.author}</span>
+            <span>{book.num_comments}</span>
+            <span>{book.points}</span>
             <span>
-              <button onClick={() => onDismiss(item.objectID)} type="button">
+              <button onClick={() => onDismiss(book.objectID)} type="button">
                 Dismiss
               </button>
             </span>
@@ -152,11 +116,10 @@ class Table extends Component {
       </div>
     );
   }
-} */
+}
+// the props object that is accessible via the class instance by using ``this``. The props, short form for properties,
+// have all the values you have passed to the components when you used them in your App component.
+// That way, components can pass properties down the component tree.
+// By extracting those components from the App component, you would be able to reuse them somewhere else
 
 export default App;
-
-/* What you experience now is the unidirectional data flow in React.
-You trigger an action in your view with onClick(), a function or class method modifies
-the internal component state
-and the render() method of the component runs again to update the view. */
