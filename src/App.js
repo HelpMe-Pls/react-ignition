@@ -74,7 +74,9 @@ class App extends Component {
     return (
       <div className="App">
         {/*  //## Split Component */}
-        <Search value={searchTerm} onChange={this.onSearchChange} />
+        <Search value={searchTerm} onChange={this.onSearchChange}>
+          Search:
+        </Search>
         <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
       </div>
     );
@@ -84,10 +86,14 @@ class App extends Component {
 // ## Split Component Definitions
 class Search extends Component {
   render() {
-    const { value, onChange } = this.props;
+    const { value, onChange, children } = this.props;
     return (
       <form>
-        <input type="text" value={value} onChange={onChange} />
+        {children} <input type="text" value={value} onChange={onChange} />
+        {/* Specifies where the children should be displayed, but it has to be outside of the element.
+      After all, it is not only text that you can pass as children. You can pass an element and element trees
+      (which can be encapsulated by components again) as children. The children property makes it possible
+      to weave components into each other*/}
       </form>
     );
   }
