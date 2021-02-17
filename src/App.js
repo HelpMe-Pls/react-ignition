@@ -113,13 +113,22 @@ class Table extends Component {
             <span>{book.num_comments}</span>
             <span>{book.points}</span>
             <span>
-              <button onClick={() => onDismiss(book.objectID)} type="button">
-                Dismiss
-              </button>
+              <Button onClick={() => onDismiss(book.objectID)}>Dismiss</Button>
             </span>
           </div>
         ))}
       </div>
+    );
+  }
+}
+
+class Button extends Component {
+  render() {
+    const { onClick, className = "", children } = this.props;
+    return (
+      <button onClick={onClick} className={className} type="button">
+        {children}
+      </button>
     );
   }
 }
