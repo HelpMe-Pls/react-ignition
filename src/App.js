@@ -33,7 +33,8 @@ const isSearched = (searchTerm) => (
 // includes() return true when the pattern matches and the item stays in the list, the original list in the local state isn’t modified at all.
 
 class App extends Component {
-  //function App() {
+  // App component uses internal state like `this.state` or `this.setState()` and life cycle methods like `constructor()` and `render()`.
+  // That’s why it's an ES6 CLASS COMPONENT
   constructor(props) {
     super(
       props
@@ -83,7 +84,7 @@ class App extends Component {
   }
 }
 
-// ## Split Component Definitions
+// ## Split CLASS COMPONENT Definitions
 class Search extends Component {
   render() {
     const { value, onChange, children } = this.props;
@@ -98,6 +99,16 @@ class Search extends Component {
     );
   }
 }
+
+// ## refactoring class component to functional stateless component
+// const Search = ({ value, onChange, children }) => {
+//   //do something else..
+//   return (
+//     <form>
+//       {children} <input type="text" value={value} onChange={onChange} />
+//     </form>
+//   );
+// };
 
 class Table extends Component {
   render() {
@@ -125,8 +136,7 @@ class Table extends Component {
 
 class Button extends Component {
   render() {
-    const { onClick, className = "", children } = this.props;
-    //In the code it should be more explicit in the Button component that the className is optional
+    const { onClick, children, className = "" } = this.props;
     return (
       <button onClick={onClick} className={className} type="button">
         {children}
@@ -134,9 +144,5 @@ class Button extends Component {
     );
   }
 }
-// the props object that is accessible via the class instance by using ``this``. The props, short form for properties,
-// have all the values you have passed to the components when you used them in your App component.
-// That way, components can pass properties down the component tree.
-// By extracting those components from the App component, you would be able to reuse them somewhere else
 
 export default App;
