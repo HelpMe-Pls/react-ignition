@@ -73,11 +73,13 @@ class App extends Component {
   render() {
     const { searchTerm, list } = this.state; // using ES6 destructuring so we can quickly access state's props
     return (
-      <div className="App">
-        {/*  //## Split Component */}
-        <Search value={searchTerm} onChange={this.onSearchChange}>
-          Search:
-        </Search>
+      <div className="page">
+        <div className="interactions">
+          {/*  //## Split Component */}
+          <Search value={searchTerm} onChange={this.onSearchChange}>
+            Search:
+          </Search>
+        </div>
         <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
       </div>
     );
@@ -113,18 +115,32 @@ class Search extends Component {
 class Table extends Component {
   render() {
     const { list, pattern, onDismiss } = this.props;
+    const largeColumn = {
+      width: "40%",
+    };
+    const midColumn = {
+      width: "30%",
+    };
+    const smallColumn = {
+      width: "10%",
+    };
     return (
-      <div>
+      <div className="table">
         {list.filter(isSearched(pattern)).map((book) => (
-          <div key={book.objectID}>
-            <span>
+          <div key={book.objectID} className="table-row">
+            <span style={largeColumn}>
               <a href={book.url}>{book.title}</a>
             </span>
-            <span>{book.author}</span>
-            <span>{book.num_comments}</span>
-            <span>{book.points}</span>
-            <span>
-              <Button onClick={() => onDismiss(book.objectID)}>Dismiss</Button>
+            <span style={midColumn}>{book.author}</span>
+            <span style={smallColumn}>{book.num_comments}</span>
+            <span style={smallColumn}>{book.points}</span>
+            <span style={smallColumn}>
+              <Button
+                onClick={() => onDismiss(book.objectID)}
+                className="button-inline"
+              >
+                Dismiss
+              </Button>
               {/* Since you already have a button element, you can use the Button component instead. */}
             </span>
           </div>
