@@ -114,6 +114,7 @@ class Table extends Component {
             <span>{book.points}</span>
             <span>
               <Button onClick={() => onDismiss(book.objectID)}>Dismiss</Button>
+              {/* Since you already have a button element, you can use the Button component instead. */}
             </span>
           </div>
         ))}
@@ -125,6 +126,7 @@ class Table extends Component {
 class Button extends Component {
   render() {
     const { onClick, className = "", children } = this.props;
+    //In the code it should be more explicit in the Button component that the className is optional
     return (
       <button onClick={onClick} className={className} type="button">
         {children}
