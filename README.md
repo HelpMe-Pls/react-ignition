@@ -74,7 +74,7 @@ What I've Learnt:
 ## Introduction to React:
 • React
 – create-react-app bootstraps a React application
-– JSX mixes up HTML and JavaScript to define the output of React components in their render methods
+* JSX mixes up HTML and JavaScript to define the output of React components in their render methods
 – components, instances and elements are different things in React
 – ReactDOM.render() is an entry point for a React application to hook React into the DOM
 – built-in JavaScript functionalities can be used in JSX
@@ -85,3 +85,26 @@ What I've Learnt:
 * use const over let in React applications
 – arrow functions can be used to keep your functions concise
 – classes are used to define components in React by extending them
+
+----------o0o----------
+
+## Basics in React:
+• React
+* use this.state and setState() to manage your internal component state
+– pass functions or class methods to your element handler
+– use forms and events in React to add interactions
+* unidirectional data flow is an important concept in React
+– embrace controlled components
+– compose components with children and reusable components
+* usage and implementation of ES6 class components and functional stateless components
+– approaches to style your components
+
+• ES6
+– functions that are bound to a class are class methods
+* destructuring of objects and arrays
+– default parameters
+
+• General
+– higher-order functions
+
+
