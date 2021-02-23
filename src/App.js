@@ -102,7 +102,10 @@ class Search extends Component {
   }
 }
 
-// ## refactoring class component to functional stateless component
+/* ## Refactoring class component to functional stateless component
+ ## Once you would need access to its internal component state or lifecycle methods,
+## you would refactor it to an ES6 class component. */
+
 // const Search = ({ value, onChange, children }) => {
 //   //do something else..
 //   return (
