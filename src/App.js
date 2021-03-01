@@ -42,7 +42,18 @@ class App extends Component {
   setSearchTopStories(result) {
     this.setState({ result }); //Once the data arrives, it changes your internal component state
   }
+  onDismiss(id) {
+    const isNotId = (item) => item.objectID !== id;
+    const updatedList = this.state.list.filter(isNotId);
+    this.setState({ list: updatedList }); //store an updated list to your LOCAL state (internal component state).
+  }
+  /*   If the evaluation for an item is true, the item stays in the list. Otherwise it will be filtered from the list.
+  Additionally, it is good to know that the setState function returns a new list and doesn’t mutate the old list. */
 
+  onSearchChange(event) {
+    //The event has the value of the input field in its target object
+    this.setState({ searchTerm: event.target.value }); //update the local state with the search term by using this.setState()
+  }
   // asynchronously fetch data from the Hacker News API
   componentDidMount() {
     const { searchTerm } = this.state;
