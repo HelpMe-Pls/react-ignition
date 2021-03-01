@@ -12,6 +12,10 @@ const PARAM_SEARCH = "query=";
 const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
 console.log(url);
 
+const isSearched = (searchTerm) => (
+  item //function isSearched(searchTerm) return function(item) return....
+) => item.title.toLowerCase().includes(searchTerm.toLowerCase());
+
 class App extends Component {
   // App component uses internal state like `this.state` or `this.setState()` and life cycle methods like `constructor()` and `render()`.
   // That’s why it's an ES6 CLASS COMPONENT
@@ -55,13 +59,92 @@ class App extends Component {
     }
     return (
       <div className="page">
-        {/* do something.... */}
+        <div className="interactions">
+          {/*  //## Split Component */}
+          <Search value={searchTerm} onChange={this.onSearchChange}>
+            Search:
+          </Search>
+        </div>
         <Table
           list={result.hits}
           pattern={searchTerm}
           onDismiss={this.onDismiss}
         />
       </div>
+    );
+  }
+}
+
+class Search extends Component {
+  render() {
+    const { value, onChange, children } = this.props;
+    return (
+      <form>
+        {children} <input type="text" value={value} onChange={onChange} />
+        {/* Specifies where the children should be displayed, but it has to be outside of the element.
+      After all, it is not only text that you can pass as children. You can pass an element and element trees
+      (which can be encapsulated by components again) as children. The children property makes it possible
+      to weave components into each other*/}
+      </form>
+    );
+  }
+}
+
+// ## refactoring class component to functional stateless component
+// const Search = ({ value, onChange, children }) => {
+//   //do something else..
+//   return (
+//     <form>
+//       {children} <input type="text" value={value} onChange={onChange} />
+//     </form>
+//   );
+// };
+
+class Table extends Component {
+  render() {
+    const { list, pattern, onDismiss } = this.props;
+    const largeColumn = {
+      width: "40%",
+    };
+    const midColumn = {
+      width: "30%",
+    };
+    const smallColumn = {
+      width: "10%",
+    };
+    return (
+      <div className="table">
+        {list.filter(isSearched(pattern)).map((book) => (
+          <div key={book.objectID} className="table-row">
+            <span style={largeColumn}>
+              <a href={book.url}>{book.title}</a>
+            </span>
+            <span style={midColumn}>{book.author}</span>
+            <span style={smallColumn}>{book.num_comments}</span>
+            <span style={smallColumn}>{book.points}</span>
+            <span style={smallColumn}>
+              <Button
+                onClick={() => onDismiss(book.objectID)}
+                className="button-inline"
+              >
+                Dismiss
+              </Button>
+              {/* Since you already have a button element, you can use the Button component instead. */}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
+class Button extends Component {
+  render() {
+    const { onClick, children, className = "" } = this.props;
+    return (
+      <button onClick={onClick} className={className} type="button">
+        {children}
+      </button>
     );
   }
 }
