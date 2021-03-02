@@ -43,12 +43,13 @@ class App extends Component {
     this.setState({ result }); //Once the data arrives, it changes your internal component state
   }
   onDismiss(id) {
-    const isNotId = (item) => item.objectID !== id;
-    const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList }); //store an updated list to your LOCAL state (internal component state).
+    const isNotId = (item) => item.objectID !== id; // all of the remaining items
+    const updatedHits = this.state.result.hits.filter(isNotId);
+    this.setState({
+      result: { ...this.state.result, hits: updatedHits },
+    }); // using spread operator(...) to merge the current result and updatedHits creating a new updated result,
+    // for the sake of React's immutable data structures (you shouldn’t mutate an object, or mutate the state directly)
   }
-  /*   If the evaluation for an item is true, the item stays in the list. Otherwise it will be filtered from the list.
-  Additionally, it is good to know that the setState function returns a new list and doesn’t mutate the old list. */
 
   onSearchChange(event) {
     //The event has the value of the input field in its target object
@@ -125,17 +126,17 @@ class Table extends Component {
     };
     return (
       <div className="table">
-        {list.filter(isSearched(pattern)).map((book) => (
-          <div key={book.objectID} className="table-row">
+        {list.filter(isSearched(pattern)).map((post) => (
+          <div key={post.objectID} className="table-row">
             <span style={largeColumn}>
-              <a href={book.url}>{book.title}</a>
+              <a href={post.url}>{post.title}</a>
             </span>
-            <span style={midColumn}>{book.author}</span>
-            <span style={smallColumn}>{book.num_comments}</span>
-            <span style={smallColumn}>{book.points}</span>
+            <span style={midColumn}>{post.author}</span>
+            <span style={smallColumn}>{post.num_comments}</span>
+            <span style={smallColumn}>{post.points}</span>
             <span style={smallColumn}>
               <Button
-                onClick={() => onDismiss(book.objectID)}
+                onClick={() => onDismiss(post.objectID)}
                 className="button-inline"
               >
                 Dismiss
