@@ -66,9 +66,10 @@ class App extends Component {
 
   render() {
     const { searchTerm, result } = this.state;
-    if (!result) {
-      return null;
-    }
+    // empty page if failed to fetch data
+    // if (!result) {
+    //   return null;
+    // }
     return (
       <div className="page">
         <div className="interactions">
@@ -77,11 +78,13 @@ class App extends Component {
             Search:
           </Search>
         </div>
-        <Table
-          list={result.hits}
-          pattern={searchTerm}
-          onDismiss={this.onDismiss}
-        />
+        {result && ( // Everything else should be displayed and empty space where the table's at if data fetching is failed
+          <Table
+            list={result.hits}
+            pattern={searchTerm}
+            onDismiss={this.onDismiss}
+          />
+        )}
       </div>
     );
   }
