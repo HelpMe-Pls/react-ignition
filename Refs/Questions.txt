@@ -1,3 +1,0 @@
-- How to view current state/ stages of states
-- How to view JSON response after fetching data
-

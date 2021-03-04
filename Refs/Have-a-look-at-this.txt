@@ -1,0 +1,5 @@
+- How to view current state/ stages of states
+- How to view JSON response after fetching data
+- Load latest hits as first entry
+- Real time API response from server to every keystroke in search box (no need a button to fetch new API response after completing the search query) 
+
