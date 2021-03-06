@@ -4,12 +4,16 @@ import "./App.css";
 
 //set up the URL constants and default parameters to breakup the API request into chunks
 const DEFAULT_QUERY = "react";
+const DEFAULT_HPP = "100";
+
 const PATH_BASE = "https://hn.algolia.com/api/v1";
 const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
+const PARAM_PAGE = "page=";
+const PARAM_HPP = "hitsPerPage=";
 
 //In JavaScript ES6, you can use template strings to concatenate your URL for the API endpoint
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
 console.log(url);
 
 class App extends Component {
@@ -38,11 +42,20 @@ class App extends Component {
   /* class METHODS can be autobound automatically without
   binding them explicitly by using JavaScript ES6 arrow functions. */
   setSearchTopStories(result) {
-    this.setState({ result }); //Once the data arrives, it changes your internal component state
+    const { hits, page } = result;
+    const oldHits = page !== 0 ? this.state.result.hits : []; //When the page is 0, the hits are empty., start new search request from componentDidMount() or onSearchSubmit()
+    const updatedHits = [...oldHits, ...hits]; //merge old and new hits from the recent API equest
+    this.setState({
+      result: { hits: updatedHits, page }, //set the merged hits and page in the local component state
+    });
   }
 
-  fetchSearchTopStories(searchTerm) {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+  fetchSearchTopStories(searchTerm, page = 0) {
+    //The page argument uses the JavaScript ES6 default parameter to introduce the fallback to page 0 in
+    // case no defined page argument is provided for the function.
+    fetch(
+      `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`
+    )
       .then((response) => response.json())
       .then((result) => this.setSearchTopStories(result))
       .catch((error) => error);
@@ -80,6 +93,7 @@ class App extends Component {
     // if (!result) {
     //   return null;
     // }
+    const page = (result && result.page) || 0;
     return (
       <div className="page">
         <div className="interactions">
@@ -100,6 +114,13 @@ class App extends Component {
             onDismiss={this.onDismiss}
           />
         )}
+        <div className="interactions">
+          <Button
+            onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}
+          >
+            More
+          </Button>
+        </div>
       </div>
     );
   }
