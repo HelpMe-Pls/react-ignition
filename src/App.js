@@ -28,7 +28,8 @@ class App extends Component {
     this.state = {
       results: null,
       searchKey: "",
-      /* reflects the searchTerm (is a fluctuant variable, because it getschanged every time you type into the Search input field)
+      /* The searchKey has to be set before each request is made and reflects the searchTerm (is a fluctuant variable,
+      because it gets changed every time you type into the Search input field)
       We use searchKey to determine the recent submitted search term to the API and to retrieve the correct result from the map of results.
       It is a pointer to your current result in the cache and thus can be used to display the current result in your render() method. */
       searchTerm: DEFAULT_QUERY,
