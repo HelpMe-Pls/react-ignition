@@ -26,10 +26,15 @@ class App extends Component {
     Otherwise, when accessing this.props in your constructor, they would be undefined. */
 
     this.state = {
-      result: null,
+      results: null,
+      searchKey: "",
+      /* reflects the searchTerm (is a fluctuant variable, because it getschanged every time you type into the Search input field)
+      We use searchKey to determine the recent submitted search term to the API and to retrieve the correct result from the map of results.
+      It is a pointer to your current result in the cache and thus can be used to display the current result in your render() method. */
       searchTerm: DEFAULT_QUERY,
     };
 
+    this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
@@ -41,12 +46,26 @@ class App extends Component {
 
   /* class METHODS can be autobound automatically without
   binding them explicitly by using JavaScript ES6 arrow functions. */
+
+  needsToSearchTopStories(searchTerm) {
+    return !this.state.results[searchTerm]; //prevent the API request when a result is available in the cache
+  }
+
   setSearchTopStories(result) {
     const { hits, page } = result;
-    const oldHits = page !== 0 ? this.state.result.hits : []; //When the page is 0, the hits are empty., start new search request from componentDidMount() or onSearchSubmit()
+    const { searchKey, results } = this.state;
+    /* The searchKey will be used as the key to save the updated hits and page in a results map.
+    First, you have to retrieve the searchKey from the component state. Remember that the searchKey gets set on componentDidMount() and onSearchSubmit(). */
+    const oldHits =
+      results && results[searchKey] ? results[searchKey].hits : [];
+    /* Second, the old hits have to get merged with the new hits as before. But this time the old hits get
+    retrieved from the results map with the searchKey as key. */
     const updatedHits = [...oldHits, ...hits]; //merge old and new hits from the recent API equest
     this.setState({
-      result: { hits: updatedHits, page }, //set the merged hits and page in the local component state
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page }, //makes sure to store the updated result by searchKey (the most recent search term)
+      },
     });
   }
 
@@ -62,10 +81,15 @@ class App extends Component {
   }
 
   onDismiss(id) {
+    const { searchKey, results } = this.state;
+    const { hits, page } = results[searchKey];
     const isNotId = (item) => item.objectID !== id; // all of the remaining items
-    const updatedHits = this.state.result.hits.filter(isNotId);
+    const updatedHits = hits.filter(isNotId);
     this.setState({
-      result: { ...this.state.result, hits: updatedHits },
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page },
+      },
     }); // using spread operator(...) to merge the current result and updatedHits creating a new updated result,
     // for the sake of React's immutable data structures (you shouldn’t mutate an object, or mutate the state directly)
   }
@@ -77,6 +101,10 @@ class App extends Component {
 
   onSearchSubmit(event) {
     const { searchTerm } = this.state; //this time with a modified search term from the local state and not with the initial default search term
+    this.setState({ searchKey: searchTerm });
+    if (this.needsToSearchTopStories(searchTerm)) {
+      this.fetchSearchTopStories(searchTerm); //Now your client makes a request to the API only once although you search for a search term twice.
+    }
     this.fetchSearchTopStories(searchTerm);
     event.preventDefault();
   }
@@ -84,16 +112,21 @@ class App extends Component {
   // asynchronously fetch data from the Hacker News API
   componentDidMount() {
     const { searchTerm } = this.state;
+    this.setState({ searchKey: searchTerm });
     this.fetchSearchTopStories(searchTerm);
   }
 
   render() {
-    const { searchTerm, result } = this.state;
+    const { searchTerm, results, searchKey } = this.state;
     // empty page if failed to fetch data
     // if (!result) {
     //   return null;
     // }
-    const page = (result && result.page) || 0;
+    const page =
+      (results && results[searchKey] && results[searchKey].page) || 0;
+    const list =
+      (results && results[searchKey] && results[searchKey].hits) || [];
+
     return (
       <div className="page">
         <div className="interactions">
@@ -106,17 +139,11 @@ class App extends Component {
             Search
           </Search>
         </div>
-        {result && (
-          <Table
-            list={
-              result.hits // Everything else should be displayed and empty space where the table's at if data fetching is failed
-            }
-            onDismiss={this.onDismiss}
-          />
-        )}
+        <Table list={list} onDismiss={this.onDismiss} />
         <div className="interactions">
           <Button
-            onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}
+            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+            //Use searchKey otherwise your paginated fetch depends on the searchTerm value which is fluctuant
           >
             More
           </Button>
