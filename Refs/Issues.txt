@@ -2,4 +2,4 @@
 - How to view JSON response after fetching data (cached data)
 - Load latest hits as first entry
 - Real time API response from server to every keystroke in search box (no need a button to fetch new API response after completing the search query) 
-- Client Cache didn't work
+- Client Cache didn't work properly (it loads new search to the end of the current page and dismiss button works from the bottom up): use devtool to debug ?
