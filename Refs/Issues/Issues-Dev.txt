@@ -1,0 +1,5 @@
+- How to view local state/ stages of states
+- How to view JSON response after fetching data (cached data)
+- Load latest hits as first entry
+- Real time API/cache response to every keystroke in search box 
+- Client cache is case sensitive, fix it. Hint: Convert searchKey to lower case 
