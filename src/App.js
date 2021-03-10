@@ -13,10 +13,6 @@ const PARAM_SEARCH = "query=";
 const PARAM_PAGE = "page=";
 const PARAM_HPP = "hitsPerPage=";
 
-//In JavaScript ES6, you can use template strings to concatenate your URL for the API endpoint
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
-console.log(url);
-
 class App extends Component {
   // App component uses internal state like `this.state` or `this.setState()` and life cycle methods like `constructor()` and `render()`.
   // That’s why it's an ES6 CLASS COMPONENT
@@ -112,7 +108,7 @@ class App extends Component {
     if (this.needsToSearchTopStories(searchTerm)) {
       this.fetchSearchTopStories(searchTerm); //Now your client makes a request to the API only once although you search for a search term twice.
     }
-    this.fetchSearchTopStories(searchTerm);
+
     event.preventDefault();
   }
 
