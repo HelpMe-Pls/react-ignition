@@ -1,6 +1,7 @@
 //import logo from "./logo.svg";
 import React, { Component } from "react";
 import "./App.css";
+import axios from "axios";
 
 //set up the URL constants and default parameters to breakup the API request into chunks
 const DEFAULT_QUERY = "react";
@@ -19,6 +20,7 @@ console.log(url);
 class App extends Component {
   // App component uses internal state like `this.state` or `this.setState()` and life cycle methods like `constructor()` and `render()`.
   // That’s why it's an ES6 CLASS COMPONENT
+  _isMounted = false; //avoid calling this.setState() in React on an unmounted component
   constructor(props) {
     super(
       props
@@ -74,12 +76,14 @@ class App extends Component {
   fetchSearchTopStories(searchTerm, page = 0) {
     //The page argument uses the JavaScript ES6 default parameter to introduce the fallback to page 0 in
     // case no defined page argument is provided for the function.
-    fetch(
+    axios(
       `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`
     )
-      .then((response) => response.json())
-      .then((result) => this.setSearchTopStories(result))
-      .catch((error) => this.setState({ error }));
+      .then(
+        (result) => this._isMounted && this.setSearchTopStories(result.data)
+      )
+      //Axios wraps the promise's response into *data* object
+      .catch((error) => this._isMounted && this.setState({ error }));
     //store the error object in the local state by using setState(). Every time the API request isn’t successful, the catch block would be executed.
   }
 
@@ -114,9 +118,14 @@ class App extends Component {
 
   // asynchronously fetch data from the Hacker News API
   componentDidMount() {
+    this._isMounted = true;
     const { searchTerm } = this.state;
     this.setState({ searchKey: searchTerm });
     this.fetchSearchTopStories(searchTerm);
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
