@@ -3,3 +3,4 @@
 - Load latest hits as first entry
 - Real time API/cache response to every keystroke in search box 
 - Client cache is case sensitive, fix it. Hint: Convert searchKey to lower case 
+- Refactor your src/App.js file into multiple component modules when you finished the book
