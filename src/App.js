@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 //set up the URL constants and default parameters to breakup the API request into chunks
 const DEFAULT_QUERY = "react";
@@ -270,16 +271,46 @@ const smallColumn = {
   width: "10%",
 };
 
-class Button extends Component {
-  render() {
-    const { onClick, children, className = "" } = this.props;
-    return (
-      <button onClick={onClick} className={className} type="button">
-        {children}
-      </button>
-    );
-  }
-}
+// class Button extends Component {
+//   render() {
+//     const { onClick, children, className = "" } = this.props;
+//     return (
+//       <button onClick={onClick} className={className} type="button">
+//         {children}
+//       </button>
+//     );
+//   }
+// }
+
+const Button = ({ onClick, className, children }) => (
+  <button onClick={onClick} className={className} type="button">
+    {children}
+  </button>
+);
+Button.defaultProps = {
+  //internal React default prop
+  className: "",
+};
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};
+// the default prop ensures that the property is set to a default value when the parent component didn’t specify it.
+// the PropType type check happens after the default prop is evaluated
+
+Table.propTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number,
+    })
+  ).isRequired,
+  onDismiss: PropTypes.func.isRequired,
+};
 
 export default App;
 
