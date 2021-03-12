@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import renderer from "react-test-renderer";
 import App from "./App";
 import { Search, Button, Table } from "./App";
+import Adapter from "enzyme-adapter-react-16";
+import Enzyme, { shallow } from "enzyme";
+
+Enzyme.configure({ adapter: new Adapter() });
 
 describe("App", () => {
   it("renders without crashing", () => {
@@ -51,13 +55,15 @@ describe("Button", () => {
 describe("Table", () => {
   const props = {
     list: [
-      { title: "1", author: "1", num_comments: 1, points: 2, objectID: "y" },
-      { title: "2", author: "2", num_comments: 1, points: 2, objectID: "z" },
+      { title: "1", author: "1", num_comments: 1, points: 2, objectID: "x" },
+      { title: "2", author: "2", num_comments: 1, points: 2, objectID: "y" },
+      { title: "3", author: "3", num_comments: 1, points: 2, objectID: "z" },
     ],
   };
-  it("renders without crashing", () => {
-    const div = document.createElement("div");
-    ReactDOM.render(<Table {...props} />, div);
+  it("shows three items in list", () => {
+    const element = shallow(<Table {...props} />);
+    // use shallow() to render your component (without its child components) and check if the element has two elements with the class ~table-row~
+    expect(element.find(".table-row").length).toBe(3);
   });
   test("has a valid snapshot", () => {
     const component = renderer.create(<Table {...props} />);
