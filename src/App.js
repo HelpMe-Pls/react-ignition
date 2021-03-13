@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { sortBy } from "lodash";
+import classNames from "classnames";
 
 //set up the URL constants and default parameters to breakup the API request into chunks
 const DEFAULT_QUERY = "react";
@@ -13,6 +15,16 @@ const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
 const PARAM_PAGE = "page=";
 const PARAM_HPP = "hitsPerPage=";
+
+const SORTS = {
+  NONE: (list) => list,
+  TITLE: (list) => sortBy(list, "title"),
+  AUTHOR: (list) => sortBy(list, "author"),
+  COMMENTS: (list) => sortBy(list, "num_comments").reverse(),
+  POINTS: (list) => sortBy(list, "points").reverse(),
+  //because you want to see the items with the highest comments and points rather than to see
+  //the items with the lowest counts when you sort the list for the first time.
+};
 
 class App extends Component {
   // App component uses internal state like `this.state` or `this.setState()` and life cycle methods like `constructor()` and `render()`.
@@ -36,6 +48,8 @@ class App extends Component {
       isLoading: false,
       //The initial value of that isLoading property is false. You don’t load anything before the App component is mounted
       //When you make the request, you set a loading state to true
+      sortKey: "NONE",
+      isSortReverse: false,
     };
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -44,6 +58,7 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this); //fetches results from API when executing a search in the Search component
     this.onDismiss = this.onDismiss.bind(this);
+    this.onSort = this.onSort.bind(this);
     /* if you want to access this.state in your class method, it cannot be retrieved because this is undefined. 
       So in order to make this accessible in your class methods, you have to bind the class methods to this. */
   }
@@ -122,6 +137,12 @@ class App extends Component {
     event.preventDefault();
   }
 
+  onSort(sortKey) {
+    const isSortReverse =
+      this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
+  }
+
   // asynchronously fetch data from the Hacker News API
   componentDidMount() {
     this._isMounted = true;
@@ -135,7 +156,15 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, results, searchKey, error, isLoading } = this.state;
+    const {
+      searchTerm,
+      results,
+      searchKey,
+      error,
+      isLoading,
+      sortKey,
+      isSortReverse,
+    } = this.state;
     // empty page if failed to fetch data
     // if (!result) {
     //   return null;
@@ -162,7 +191,13 @@ class App extends Component {
             <p>Something went wrong.</p>
           </div>
         ) : (
-          <Table list={list} onDismiss={this.onDismiss} />
+          <Table
+            list={list}
+            sortKey={sortKey}
+            isSortReverse={isSortReverse}
+            onSort={this.onSort}
+            onDismiss={this.onDismiss}
+          />
         )}
         <div className="interactions">
           <ButtonWithLoading
@@ -261,29 +296,56 @@ const Search = ({ value, onChange, onSubmit, children }) => {
 //   }
 // }
 
-const Table = ({ list, onDismiss }) => (
-  <div className="table">
-    {list.map((post) => (
-      <div key={post.objectID} className="table-row">
-        <span style={largeColumn}>
-          <a href={post.url}>{post.title}</a>
+const Table = ({ list, sortKey, onSort, isSortReverse, onDismiss }) => {
+  const sortedList = SORTS[sortKey](list);
+  const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList;
+  return (
+    <div className="table">
+      <div className="table-header">
+        <span style={{ width: "40%" }}>
+          <Sort sortKey={"TITLE"} onSort={onSort} activeSortKey={sortKey}>
+            Title
+          </Sort>
         </span>
-        <span style={midColumn}>{post.author}</span>
-        <span style={smallColumn}>{post.num_comments}</span>
-        <span style={smallColumn}>{post.points}</span>
-        <span style={smallColumn}>
-          <Button
-            onClick={() => onDismiss(post.objectID)}
-            className="button-inline"
-          >
-            Dismiss
-          </Button>
-          {/* Since you already have a button element, you can use the Button component instead. */}
+        <span style={{ width: "30%" }}>
+          <Sort sortKey={"AUTHOR"} onSort={onSort} activeSortKey={sortKey}>
+            Author
+          </Sort>
         </span>
+        <span style={{ width: "10%" }}>
+          <Sort sortKey={"COMMENTS"} onSort={onSort} activeSortKey={sortKey}>
+            Comments
+          </Sort>
+        </span>
+        <span style={{ width: "10%" }}>
+          <Sort sortKey={"POINTS"} onSort={onSort} activeSortKey={sortKey}>
+            Points
+          </Sort>
+        </span>
+        <span style={{ width: "10%" }}>Archive</span>
       </div>
-    ))}
-  </div>
-);
+      {reverseSortedList.map((post) => (
+        <div key={post.objectID} className="table-row">
+          <span style={largeColumn}>
+            <a href={post.url}>{post.title}</a>
+          </span>
+          <span style={midColumn}>{post.author}</span>
+          <span style={smallColumn}>{post.num_comments}</span>
+          <span style={smallColumn}>{post.points}</span>
+          <span style={smallColumn}>
+            <Button
+              onClick={() => onDismiss(post.objectID)}
+              className="button-inline"
+            >
+              Dismiss
+            </Button>
+            {/* Since you already have a button element, you can use the Button component instead. */}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
 const largeColumn = {
   width: "40%",
 };
@@ -343,6 +405,17 @@ Table.propTypes = {
   onDismiss: PropTypes.func.isRequired,
 };
 
+const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
+  const sortClass = classNames("button-inline", {
+    "button-active": sortKey === activeSortKey,
+  });
+  return (
+    <Button onClick={() => onSort(sortKey)} className={sortClass}>
+      {children}
+    </Button>
+  );
+};
+//On a button click each individual passed sortKey will get setState by the onSort() method.
 export default App;
 
 export { Button, Search, Table };

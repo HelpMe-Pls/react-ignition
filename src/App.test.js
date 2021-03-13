@@ -59,6 +59,8 @@ describe("Table", () => {
       { title: "2", author: "2", num_comments: 1, points: 2, objectID: "y" },
       { title: "3", author: "3", num_comments: 1, points: 2, objectID: "z" },
     ],
+    sortKey: "TITLE",
+    isSortReverse: false,
   };
   it("shows three items in list", () => {
     const element = shallow(<Table {...props} />);
