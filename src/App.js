@@ -33,6 +33,9 @@ class App extends Component {
       It is a pointer to your current result in the cache and thus can be used to display the current result in your render() method. */
       searchTerm: DEFAULT_QUERY,
       error: null,
+      isLoading: false,
+      //The initial value of that isLoading property is false. You don’t load anything before the App component is mounted
+      //When you make the request, you set a loading state to true
     };
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -67,12 +70,15 @@ class App extends Component {
         ...results,
         [searchKey]: { hits: updatedHits, page }, //makes sure to store the updated result by searchKey (the most recent search term)
       },
+      isLoading: false,
+      //When the response returns from the API, the result is shown, the loading state is set to false and the Loading component disappears
     });
   }
 
   fetchSearchTopStories(searchTerm, page = 0) {
     //The page argument uses the JavaScript ES6 default parameter to introduce the fallback to page 0 in
     // case no defined page argument is provided for the function.
+    this.setState({ isLoading: true });
     axios(
       `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`
     )
@@ -81,7 +87,10 @@ class App extends Component {
       )
       //Axios wraps the promise's response into *data* object
       .catch((error) => this._isMounted && this.setState({ error }));
-    //store the error object in the local state by using setState(). Every time the API request isn’t successful, the catch block would be executed.
+    //store the error object in the local state by using setState().
+    //Every time the API request isn’t successful, the catch block would be executed.
+    //Instead, the “More” button to fetch more data appears.
+    //Once you fetch more data, the button will disappear again and the Loading component will show up.
   }
 
   onDismiss(id) {
@@ -126,7 +135,7 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, results, searchKey, error } = this.state;
+    const { searchTerm, results, searchKey, error, isLoading } = this.state;
     // empty page if failed to fetch data
     // if (!result) {
     //   return null;
@@ -139,7 +148,7 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-          {/*  //## Split Component */}
+          {/*  //## Split Components */}
           <Search
             value={searchTerm}
             onChange={this.onSearchChange}
@@ -156,17 +165,22 @@ class App extends Component {
           <Table list={list} onDismiss={this.onDismiss} />
         )}
         <div className="interactions">
-          <Button
-            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-            //Use searchKey otherwise your paginated fetch depends on the searchTerm value which is fluctuant
-          >
-            More
-          </Button>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Button
+              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+            >
+              More
+            </Button>
+          )}
         </div>
       </div>
     );
   }
 }
+
+const Loading = () => <div>Loading ...</div>;
 
 // class Search extends Component {
 //   componentDidMount() {
