@@ -90,7 +90,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## Basics in React:
 • React
-* use this.state and setState() to manage your internal component state
+**use this.state and setState() to manage your internal component state**
 – pass functions or class methods to your element handler
 – use forms and events in React to add interactions
 * unidirectional data flow is an important concept in React
@@ -101,7 +101,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 • ES6
 – functions that are bound to a class are class methods
-* destructuring of objects and arrays
+**destructuring of objects and arrays**
 – default parameters
 
 • General
@@ -113,7 +113,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 • React
 * ES6 class component lifecycle methods for different use cases
 – componentDidMount() for API interactions
-– conditional renderings
+* conditional renderings
 – synthetic events on forms {preventDefault()}
 – error handling
 – aborting a remote API request
@@ -121,7 +121,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 • ES6 and beyond
 – template strings to compose strings
 * spread operator for immutable data structures
-– computed property names
+**computed property names**
 – class fields
 
 • General
@@ -129,6 +129,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 – native fetch browser API
 – client- and server-side search
 * pagination of data
-– client-side caching
-* axios as an alternative for the native fetch API
+* client-side caching
+– axios as an alternative for the native fetch API
 
+----------o0o----------
+
+## Advanced React Components:
+• React
+– the ref attribute to reference DOM nodes
+**higher-order components are a common way to build advanced components**
+– implementation of advanced interactions in React
+– conditional classNames with a neat helper library
+
+• ES6
+* rest destructuring to split up objects and arrays
