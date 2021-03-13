@@ -145,7 +145,7 @@ class App extends Component {
             onChange={this.onSearchChange}
             onSubmit={this.onSearchSubmit}
           >
-            Search
+            Search {/* children */}
           </Search>
         </div>
         {error ? (
@@ -169,36 +169,50 @@ class App extends Component {
 }
 
 // class Search extends Component {
+//   componentDidMount() {
+//     if (this.input) {
+//       this.input.focus();
+//     }
+//   }
+//   //focus the input field when the component mounted
 //   render() {
-//     const { value, onChange, children } = this.props;
+//     const { value, onChange, onSubmit, children } = this.props;
 //     return (
-//       <form>
-//         {children} <input type="text" value={value} onChange={onChange} />
-//         {/* Specifies where the children should be displayed, but it has to be outside of the element.
+//       <form onSubmit={onSubmit}>
+//         <input
+//           type="text"
+//           value={value}
+//           onChange={onChange}
+//           ref={(node) => {
+//             this.input = node;
+//           }}
+//           //The ~ref~ attribute gives you access to a node in your elements
+//           //The ~this~ object of an ES6 class component helps us to reference the DOM node with the ref attribute
+//         />
+//         {/* Specifies where the children should be displayed.
 //       After all, it is not only text that you can pass as children. You can pass an element and element trees
 //       (which can be encapsulated by components again) as children. The children property makes it possible
 //       to weave components into each other*/}
+//         <button type="submit">{children}</button>
 //       </form>
 //     );
 //   }
 // }
 
-const Search = ({ value, onChange, onSubmit, children }) => (
-  <form onSubmit={onSubmit}>
-    <input type="text" value={value} onChange={onChange} />
-    <button type="submit">{children}</button>
-  </form>
-);
-
-// ## refactoring class component to functional stateless component
-// const Search = ({ value, onChange, children }) => {
-//   //do something else..
-//   return (
-//     <form>
-//       {children} <input type="text" value={value} onChange={onChange} />
-//     </form>
-//   );
-// };
+const Search = ({ value, onChange, onSubmit, children }) => {
+  let input;
+  return (
+    <form onSubmit={onSubmit}>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        ref={(node) => (input = node)}
+      />
+      <button type="submit">{children}</button>
+    </form>
+  );
+};
 
 // class Table extends Component {
 //   render() {
