@@ -24,6 +24,19 @@ const SORTS = {
   POINTS: (list) => sortBy(list, "points").reverse(),
 };
 
+const updateSearchTopStoriesState = (hits, page) => (prevState) => {
+  const { searchKey, results } = prevState;
+  const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
+  const updatedHits = [...oldHits, ...hits];
+  return {
+    results: {
+      ...results,
+      [searchKey]: { hits: updatedHits, page },
+    },
+    isLoading: false,
+  };
+};
+
 class App extends Component {
   // App component uses internal state like `this.state` or `this.setState()` and life cycle methods like `constructor()` and `render()`.
   // That’s why it's an ES6 CLASS COMPONENT
@@ -67,22 +80,7 @@ class App extends Component {
 
   setSearchTopStories(result) {
     const { hits, page } = result;
-    const { searchKey, results } = this.state;
-    /* The searchKey will be used as the key to save the updated hits and page in a results map.
-    First, you have to retrieve the searchKey from the component state. Remember that the searchKey gets set on componentDidMount() and onSearchSubmit(). */
-    const oldHits =
-      results && results[searchKey] ? results[searchKey].hits : [];
-    /* Second, the old hits have to get merged with the new hits as before. But this time the old hits get
-    retrieved from the results map with the searchKey as key. */
-    const updatedHits = [...oldHits, ...hits]; //merge old and new hits from the recent API equest
-    this.setState({
-      results: {
-        ...results,
-        [searchKey]: { hits: updatedHits, page }, //makes sure to store the updated result by searchKey (the most recent search term)
-      },
-      isLoading: false,
-      //When the response returns from the API, the result is shown, the loading state is set to false and the Loading component disappears
-    });
+    this.setState(updateSearchTopStoriesState(hits, page));
   }
 
   fetchSearchTopStories(searchTerm, page = 0) {
