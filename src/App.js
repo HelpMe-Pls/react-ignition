@@ -7,7 +7,7 @@ import { sortBy } from "lodash";
 import classNames from "classnames";
 
 //set up the URL constants and default parameters to breakup the API request into chunks
-const DEFAULT_QUERY = "heroku";
+const DEFAULT_QUERY = "react";
 const DEFAULT_HPP = "100";
 
 const PATH_BASE = "https://hn.algolia.com/api/v1";
