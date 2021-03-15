@@ -143,3 +143,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 • ES6
 * rest destructuring to split up objects and arrays
+
+----------o0o----------
+
+## State Management:
+• React
+– lift state management up and down to suitable components
+**setState can use a function to prevent stale state bugs**
+– existing external solutions (Redux or MobX) that help you to tame the state, read more about them
+
