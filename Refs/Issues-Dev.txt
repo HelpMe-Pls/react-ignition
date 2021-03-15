@@ -6,3 +6,4 @@
 - Refactor your src/App.js file into multiple component modules when you finished the book
 - Unit Tests with Enzyme
 - Add and update the PropType interfaces when you add and update components
+- Revisited: setState() exercises.
