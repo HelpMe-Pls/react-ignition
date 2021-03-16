@@ -61,9 +61,9 @@ class App extends Component {
       //When you make the request, you set a loading state to true
     };
 
-    this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
+    //this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
-    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
+    //this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this); //fetches results from API when executing a search in the Search component
     this.onDismiss = this.onDismiss.bind(this);
@@ -72,18 +72,21 @@ class App extends Component {
   }
 
   /* class METHODS can be autobound automatically without
-  binding them explicitly by using JavaScript ES6 arrow functions. */
+  binding them explicitly by using JavaScript ES6 arrow functions:
+  functionName = () =>{
+    do something
+  } */
 
-  needsToSearchTopStories(searchTerm) {
+  needsToSearchTopStories = (searchTerm) => {
     return !this.state.results[searchTerm]; //prevent the API request when a result is available in the cache
-  }
+  };
 
   setSearchTopStories(result) {
     const { hits, page } = result;
     this.setState(updateSearchTopStoriesState(hits, page));
   }
 
-  fetchSearchTopStories(searchTerm, page = 0) {
+  fetchSearchTopStories = (searchTerm, page = 0) => {
     //The page argument uses the JavaScript ES6 default parameter to introduce the fallback to page 0 in
     // case no defined page argument is provided for the function.
     this.setState({ isLoading: true });
@@ -99,7 +102,7 @@ class App extends Component {
     //Every time the API request isn’t successful, the catch block would be executed.
     //Instead, the “More” button to fetch more data appears.
     //Once you fetch more data, the button will disappear again and the Loading component will show up.
-  }
+  };
 
   onDismiss(id) {
     const { searchKey, results } = this.state;
