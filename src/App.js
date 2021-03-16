@@ -162,6 +162,8 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
+          <h1>HackerNews API</h1>
+          <hr />
           {/*  //## Split Components */}
           <Search
             value={searchTerm}
