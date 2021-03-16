@@ -1,3 +1,7 @@
+# My sincere thanks to Robin Wieruch (https://www.robinwieruch.de/about) with his book (https://www.roadtoreact.com/) has guided me on the first steps of getting into ReactJS.
+
+----------o0o----------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -107,7 +111,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 • General
     • higher-order functions
 
-----------o0o----------
 
 ## API interactions:
 – React
