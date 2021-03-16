@@ -70,85 +70,85 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
-***What I've Learnt***
+# What I've Learnt
 ## Introduction to React:
-• React
-– create-react-app bootstraps a React application
+– React
+• create-react-app bootstraps a React application
 * JSX mixes up HTML and JavaScript to define the output of React components in their render methods
-– components, instances and elements are different things in React
-– ReactDOM.render() is an entry point for a React application to hook React into the DOM
-– built-in JavaScript functionalities can be used in JSX
+• components, instances and elements are different things in React
+• ReactDOM.render() is an entry point for a React application to hook React into the DOM
+• built-in JavaScript functionalities can be used in JSX
 * map can be used to render a list of items as HTML elements
 
 • ES6
-– variable declarations with const and let can be used for specific use cases
+• variable declarations with const and let can be used for specific use cases
 * use const over let in React applications
-– arrow functions can be used to keep your functions concise
-– classes are used to define components in React by extending them
+• arrow functions can be used to keep your functions concise
+• classes are used to define components in React by extending them
 
 ----------o0o----------
 
 ## Basics in React:
-• React
+– React
 **use this.state and setState() to manage your internal component state**
-– pass functions or class methods to your element handler
-– use forms and events in React to add interactions
+• pass functions or class methods to your element handler
+• use forms and events in React to add interactions
 * unidirectional data flow is an important concept in React
-– embrace controlled components
-– compose components with children and reusable components
+• embrace controlled components
+• compose components with children and reusable components
 * usage and implementation of ES6 class components and functional stateless components
-– approaches to style your components
+• approaches to style your components
 
-• ES6
-– functions that are bound to a class are class methods
+– ES6
+• functions that are bound to a class are class methods
 **destructuring of objects and arrays**
-– default parameters
+• default parameters
 
 • General
-– higher-order functions
+• higher-order functions
 
 ----------o0o----------
 
 ## API interactions:
-• React
+– React
 * ES6 class component lifecycle methods for different use cases
-– componentDidMount() for API interactions
+• componentDidMount() for API interactions
 * conditional renderings
-– synthetic events on forms {preventDefault()}
-– error handling
-– aborting a remote API request
+• synthetic events on forms {preventDefault()}
+• error handling
+• aborting a remote API request
 
-• ES6 and beyond
-– template strings to compose strings
+– ES6 and beyond
+• template strings to compose strings
 * spread operator for immutable data structures
 **computed property names**
-– class fields
+• class fields
 
-• General
-– Hacker News API interaction
-– native fetch browser API
-– client- and server-side search
+– General
+• Hacker News API interaction
+• native fetch browser API
+• client- and server-side search
 * pagination of data
 * client-side caching
-– axios as an alternative for the native fetch API
+• axios as an alternative for the native fetch API
 
 ----------o0o----------
 
 ## Advanced React Components:
-• React
-– the ref attribute to reference DOM nodes
+– React
+• the ref attribute to reference DOM nodes
 **higher-order components are a common way to build advanced components**
-– implementation of advanced interactions in React
-– conditional classNames with a neat helper library
+• implementation of advanced interactions in React
+• conditional classNames with a neat helper library
 
-• ES6
+– ES6
 * rest destructuring to split up objects and arrays
 
 ----------o0o----------
 
 ## State Management:
-• React
-– lift state management up and down to suitable components
+– React
+• lift state management up and down to suitable components
 **setState can use a function to prevent stale state bugs**
-– existing external solutions (Redux or MobX) that help you to tame the state, read more about them
+• existing external solutions (Redux or MobX) that help you to tame the state, read more about them
 
