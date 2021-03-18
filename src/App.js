@@ -5,16 +5,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { sortBy } from "lodash";
 import classNames from "classnames";
-
-//set up the URL constants and default parameters to breakup the API request into chunks
-const DEFAULT_QUERY = "react";
-const DEFAULT_HPP = "100";
-
-const PATH_BASE = "https://hn.algolia.com/api/v1";
-const PATH_SEARCH = "/search";
-const PARAM_SEARCH = "query=";
-const PARAM_PAGE = "page=";
-const PARAM_HPP = "hitsPerPage=";
+import * as cnst from "./constants";
 
 const SORTS = {
   NONE: (list) => list,
@@ -54,7 +45,7 @@ class App extends Component {
       because it gets changed every time you type into the Search input field)
       We use searchKey to determine the recent submitted search term to the API and to retrieve the correct result from the map of results.
       It is a pointer to your current result in the cache and thus can be used to display the current result in your render() method. */
-      searchTerm: DEFAULT_QUERY,
+      searchTerm: cnst.DEFAULT_QUERY,
       error: null,
       isLoading: false,
       //The initial value of that isLoading property is false. You don’t load anything before the App component is mounted
@@ -91,7 +82,7 @@ class App extends Component {
     // case no defined page argument is provided for the function.
     this.setState({ isLoading: true });
     axios(
-      `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`
+      `${cnst.PATH_BASE}${cnst.PATH_SEARCH}?${cnst.PARAM_SEARCH}${searchTerm}&${cnst.PARAM_PAGE}${page}&${cnst.PARAM_HPP}${cnst.DEFAULT_HPP}`
     )
       .then(
         (result) => this._isMounted && this.setSearchTopStories(result.data)
