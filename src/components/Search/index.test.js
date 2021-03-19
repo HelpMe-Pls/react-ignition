@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import renderer from "react-test-renderer";
-import Search from "../Search";
+import Search from ".";
 
 describe("Search", () => {
   it("renders without crashing", () => {

@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import Table from "../Table";
+import Table from ".";
 import Adapter from "enzyme-adapter-react-16";
 import Enzyme, { shallow } from "enzyme";
 
@@ -15,6 +15,7 @@ describe("Table", () => {
     sortKey: "TITLE",
     isSortReverse: false,
   };
+
   it("shows three items in list", () => {
     const element = shallow(<Table {...props} />);
     // use shallow() to render your component (without its child components) and check if the element has two elements with the class ~table-row~

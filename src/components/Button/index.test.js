@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import renderer from "react-test-renderer";
-import Button from "../Button";
+import Button from ".";
 
 describe("Button", () => {
   it("renders without crashing", () => {
