@@ -1,9 +1,8 @@
-- How to view local state/ stages of states
+- How to view your current state/ stages of states (have a look at how to use devtool, debugging,...)
 - How to view JSON response after fetching data (cached data)
 - Load latest hits as first entry
 - Real time API/cache response to every keystroke in search box 
 - Client cache is case sensitive, fix it. Hint: Convert searchKey to lower case 
-- Refactor your src/App.js file into multiple component modules when you finished the book
-- Unit Tests with Enzyme
+- Fix Warnings (required PropType) in tests
 - Add and update the PropType interfaces when you add and update components
-- Revisited: setState() exercises.
+
