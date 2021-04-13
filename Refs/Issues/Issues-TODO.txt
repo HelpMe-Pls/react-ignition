@@ -1,8 +1,10 @@
-- How to view your current state/ stages of states (have a look at how to use devtool, debugging,...)
+- How to view your current state/ stages of states 
+    > Use Redux devtool
 - How to view JSON response after fetching data (cached data)
 - Load latest hits as first entry
 - Real time API/cache response to every keystroke in search box 
 - Client cache is case sensitive, fix it. Hint: Convert searchKey to lower case 
 - Fix Warnings (required PropType) in tests
+    - Use TS
 - Add and update the PropType interfaces when you add and update components
 
