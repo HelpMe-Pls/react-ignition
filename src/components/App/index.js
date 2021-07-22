@@ -53,7 +53,7 @@ class App extends Component {
   };
 
   setSearchTopStories(result) {
-    const { hits, page } = result;
+    const { hits, page } = result; // destructured so that later we can access them as {hits} and {page} instead of {result.hits} and {results.page}
     this.setState(cnst.updateSearchTopStoriesState(hits, page));
   }
 
@@ -172,9 +172,12 @@ const Loading = () => (
     <i>Loading...</i>
   </div>
 );
-const withLoading = (Component) => (
-  { isLoading, ...rest } //in this case rest is the ~More~ button component
-) => (isLoading ? <Loading /> : <Component {...rest} />);
+const withLoading =
+  (Component) =>
+  (
+    { isLoading, ...rest } //in this case rest is the ~More~ button component
+  ) =>
+    isLoading ? <Loading /> : <Component {...rest} />;
 const ButtonWithLoading = withLoading(Button);
 /* withLoading(Button) is a Higher Order Component with ~ButtonWithLoading~ is the enhanced output component  */
 
