@@ -175,7 +175,7 @@ const Loading = () => (
 const withLoading =
   (Component) =>
   (
-    { isLoading, ...rest } //in this case rest is the ~More~ button component
+    { isLoading, ...rest } //in this case rest is all the remaining props of the "to-be-enhanced" component, isLoading is a new , enhanced prop from the HOC
   ) =>
     isLoading ? <Loading /> : <Component {...rest} />;
 const ButtonWithLoading = withLoading(Button);
