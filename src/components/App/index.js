@@ -179,7 +179,7 @@ const withLoading =
   ) =>
     isLoading ? <Loading /> : <Component {...rest} />;
 const ButtonWithLoading = withLoading(Button);
-/* withLoading(Button) is a Higher Order Component with ~ButtonWithLoading~ is the enhanced output component  */
+/* withLoading(Button) is a Higher Order Component with ~ButtonWithLoading~ is an instance of an enhanced output component  */
 
 // class Search extends Component {
 //   componentDidMount() {
