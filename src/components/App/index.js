@@ -177,7 +177,7 @@ const withLoading =
   (
     { isLoading, ...rest } //in this case rest is all the remaining props of the "to-be-enhanced" component, isLoading is a new , enhanced prop from the HOC
   ) =>
-    isLoading ? <Loading /> : <Component {...rest} />;
+    isLoading ? <Loading /> : <Component {...rest} />; // https://reactjs.org/docs/higher-order-components.html#dont-mutate-the-original-component-use-composition
 const ButtonWithLoading = withLoading(Button);
 /* withLoading(Button) is a Higher Order Component with ~ButtonWithLoading~ is an instance of an enhanced output component  */
 
