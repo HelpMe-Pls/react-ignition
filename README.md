@@ -1,4 +1,4 @@
-# My sincere thanks to Robin Wieruch (https://www.robinwieruch.de/about) with his book (https://www.roadtoreact.com/) has guided me on the first steps of getting into ReactJS.
+# My sincere thanks to [Robin Wieruch](https://www.robinwieruch.de/about) and [his book](https://www.roadtoreact.com/) has guided me on the first steps of getting into ReactJS.
 
 ----------o0o----------
 
